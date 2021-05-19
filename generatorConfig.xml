@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN" "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<generatorConfiguration>
+	<!-- 
+	http://www.mybatis.org/generator/
+	http://fanyi.myyoudao.com/WebpageTranslate?url=http%3A%2F%2Fwww.mybatis.org%2Fgenerator%2Frunning%2FrunningWithEclipse.html&type=EN2ZH_CN&keyfrom=webfanyi.changelink
+	http://blog.csdn.net/pk490525/article/details/16819307
+	http://blog.csdn.net/tanga842428/article/details/72356520 -->
+   <classPathEntry location="C:\Users\Administrator\.m2\repository\oracle\jdbc\ojdbc6\1.0\ojdbc6-1.0.jar" />  
+  
+  <context id="context1">
+    <jdbcConnection connectionURL="jdbc:oracle:thin:@192.168.14.120:1521:orcl" driverClass="oracle.jdbc.OracleDriver" password="0925" userId="0925" />
+    <javaModelGenerator targetPackage="com.zhidisoft.entity" targetProject="crm" />
+    <sqlMapGenerator targetPackage="com.zhidisoft.mapper" targetProject="crm" />
+    <javaClientGenerator targetPackage="com.zhidisoft.mapper" targetProject="crm" type="ANNOTATEDMAPPER" />
+    
+    <table  tableName="Crm_BUSINESS">
+     	<generatedKey column="ID" sqlStatement="SELECT SEQ_CRM_BUSINESS.NEXTVAL from dual"/>
+    </table>
+  </context>
+</generatorConfiguration>
