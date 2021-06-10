@@ -21,7 +21,7 @@ public class CrmBusinessController {
 	
 	@GetMapping("update/{id}")
 	public ModelAndView updateUI(@PathVariable("id") Long id){
-		ModelAndView mav = new ModelAndView("user/form","user",crmBusinessMapper.selectByPrimaryKey(id));
+		ModelAndView mav = new ModelAndView("bus/form","user",crmBusinessMapper.selectByPrimaryKey(id));
 		mav.addObject("method","update");
 		return mav;
 	}
@@ -30,7 +30,7 @@ public class CrmBusinessController {
 	public ModelAndView update(@PathVariable("id") Long id,CrmBusinessVo vo){
 		CrmBusiness cb = vo;
 		crmBusinessMapper.updateByPrimaryKeySelective(cb);
-		return new ModelAndView("redirect:/user");
+		return new ModelAndView("redirect:/bus");
 	}
 	
 }
