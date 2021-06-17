@@ -1,0 +1,174 @@
+<!doctype html>
+<html class="no-js">
+<head>
+  <title>Amaze UI Admin table Examples</title>
+  <meta name="description" content="这是一个 table 页面">
+  <meta name="keywords" content="table">
+  
+  <div th:replace="/common/_css.html"></div>
+</head>
+<body>
+<!--[if lte IE 9]>
+<p class="browsehappy">你正在使用<strong>过时</strong>的浏览器，Amaze UI 暂不支持。 请 <a href="http://browsehappy.com/" target="_blank">升级浏览器</a>
+  以获得更好的体验！</p>
+<![endif]-->
+
+<div th:replace="/common/_header.html"></div>
+
+<div class="am-cf admin-main">
+  <!-- sidebar start -->
+
+  <!-- sidebar end -->
+
+  <!-- content start -->
+  <div class="admin-content">
+    <div class="admin-content-body">
+      <div class="am-cf am-padding am-padding-bottom-0">
+        <div class="am-fl am-cf"><strong class="am-text-primary am-text-lg">表格</strong> / <small>Table</small></div>
+      </div>
+
+      <hr>
+
+      <div class="am-g">
+        <div class="am-u-sm-12 am-u-md-6">
+          <div class="am-btn-toolbar">
+            <div class="am-btn-group am-btn-group-xs">
+             <a class="am-btn am-btn-default"  th:href="@{/user/save}"><span class="am-icon-plus"></span> 新增</a>
+              <button type="button" class="am-btn am-btn-default"><span class="am-icon-save"></span> 保存</button>
+              <button type="button" class="am-btn am-btn-default"><span class="am-icon-archive"></span> 审核</button>
+              <button type="button" name="btn" class="am-btn am-btn-default"><span class="am-icon-trash-o"></span> 删除</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="am-u-sm-12 am-u-md-3">
+          <div class="am-input-group am-input-group-sm">
+            <input type="text" class="am-form-field">
+          <span class="am-input-group-btn">
+            <button class="am-btn am-btn-default" type="button">搜索</button>
+          </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="am-g">
+        <div class="am-u-sm-12">
+          <form class="am-form">
+            <table class="am-table am-table-striped am-table-hover table-main">
+              <thead>
+              <tr>
+                <th class="table-check">
+                	<input type="checkbox" /></th>
+                	<th class="table-id">ID</th>
+                	<th class="table-title">客户</th>
+                	<th class="table-type">商机名</th>
+                	<th class="table-type">商机来源</th>
+                	<th class="table-author am-hide-sm-only">下次联系时间</th>
+                	<th class="table-date am-hide-sm-only">下次联系内容</th>
+                	<th class="table-type">负责人</th>
+                	<th class="table-type">创建人</th>
+                	<th class="table-type">创建时间</th>
+                	<th class="table-type">更新时间</th>
+                	<th class="table-set">操作</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr th:each="item,itemStat : ${businessList}">
+                <td><input type="checkbox" /></td>
+                <td th:text="${itemStat.index +1}">1</td>
+                <td><a href="#" th:text="${item.name}">Business management</a></td>
+                <td th:text="${item.origin}">Business management</td>
+                 <td th:text="${item.type}">Business management</td>
+                 <td th:text="${item.nextsteptime}">Business management</td>
+                 <td th:text="${item.nextstep}">Business management</td>
+                 <td th:text="${item.type}">Business management</td> <!-- 负责人没找到 -->
+                 <td th:text="${item.customerid}">Business management</td>
+                 <td th:text="${item.duedate}">Business management</td>
+              
+               
+                <td class="am-hide-sm-only" th:text="${#dates.format(item.gmtCreate,'yyyy-MM-dd HH:mm:ss')}">2014年9月4日 7:28:47</td>
+                <td>
+                  <div class="am-btn-toolbar">
+                    <div class="am-btn-group am-btn-group-xs">
+                      <a th:href="@{/user/update/}+${item.id}"  class="am-btn am-btn-default am-btn-xs am-text-secondary" ><span class="am-icon-pencil-square-o"></span> 编辑</a>
+                      <a class="am-btn am-btn-default am-btn-xs am-hide-sm-only item_role" th:tid="${item.id}"><span class="am-icon-copy"></span> 分配角色</a>
+                      <a class="am-btn am-btn-default am-btn-xs am-text-danger am-hide-sm-only item_delete"  th:tid="${item.id}"><span class="am-icon-trash-o"></span> 删除</a>
+                    </div>
+                  </div>
+                </td>
+              </tr>
+             
+              </tbody>
+            </table>
+            <!-- http://www.cnblogs.com/hyl8218/p/5882071.html -->
+            <div class="am-cf">
+              共 [[${totalCount}]] 条记录  
+              <div class="am-fr">
+                <ul class="am-pagination">
+                   <li th:class="${pageNumber  eq 0} ? 'disabled' : ''">
+			            <a th:if="${not (pageNumber eq 1)}" th:href="@{${'/user'}(pageNum=${pageNumber -1},pageS=${pageSize})}">上一页</a>
+			            <a th:if="${pageNumber eq 1}" href="javascript:void(0);">上一页</a>
+                  </li>
+                  <li th:if="${item} gt 0" th:each="item:${#numbers.sequence(1, totalPage )}"  th:class="${pageNumber eq item ?'am-active':''}">
+                  		<a th:href="@{${'/user'}(pageNum=${item})}" th:text="${item}"></a>
+                  </li>
+                  <li th:class="${(pageNumber  + 1) ge totalPage} ? 'disabled' : ''">
+			           <a th:if="${not (pageNumber eq totalPage)}" th:href="@{${'/user'}(pageNum=${pageNumber+1},pageS=${pageSize})}">下一页</a>
+			            <a th:if="${pageNumber eq totalPage}" href="javascript:void(0);">下一页</a> 
+			        </li> 
+                </ul>
+
+              </div>
+            </div>
+            <hr />
+            <p>注：.....</p>
+          </form>
+        </div>
+
+      </div>
+    </div>
+
+    <footer class="admin-content-footer">
+      <hr>
+      <p class="am-padding-left">© 2014 AllMobilize, Inc. Licensed under MIT license.</p>
+    </footer>
+
+  </div>
+  <!-- content end -->
+</div>
+
+<a href="#" class="am-icon-btn am-icon-th-list am-show-sm-only admin-menu" data-am-offcanvas="{target: '#admin-offcanvas'}"></a>
+
+<footer>
+  <hr>
+  <p class="am-padding-left">© 2014 AllMobilize, Inc. Licensed under MIT license.</p>
+</footer>
+
+<div th:replace="/common/_js.html"></div>
+
+<script type="text/javascript">
+$(function(){
+	$(".item_delete").click(function(){
+		var $this = $(this); //获取当前选中
+		var tid = $this.attr("tid"); 
+		alert(tid);
+		document.location.href="user/delete?id="+tid;
+	})
+	
+	$(".item_role").click(function(){
+	var $this = $(this); //获取当前选中
+	var tid = $this.attr("tid"); 
+	
+	layer.open({
+		  type: 2,
+		  title: false,
+		  closeBtn: 0, //不显示关闭按钮
+		  area: ['340px', '215px'],
+		  anim: 2,
+		  content: ['http://localhost:8080/user/role/'+tid] //iframe的url，no代表不显示滚动条
+	});
+	});
+});
+</script>
+</body>
+</html>

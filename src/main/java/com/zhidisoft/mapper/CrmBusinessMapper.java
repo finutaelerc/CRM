@@ -186,4 +186,42 @@ public interface CrmBusinessMapper {
 			"CONTACTADDRESS = #{contactaddress,jdbcType=VARCHAR},", "DESCRIPTION = #{description,jdbcType=VARCHAR},",
 			"IS_DEL = #{isDel,jdbcType=VARCHAR}", "where ID = #{id,jdbcType=DECIMAL}" })
 	int updateByPrimaryKey(CrmBusiness record);
+	
+	@Select("SELECT *\r\n" + 
+			"  FROM (SELECT A.*, ROWNUM RN\r\n" + 
+			"          FROM (select * from crm_business) A\r\n" + 
+			"         WHERE <= #{endIndex})\r\n" + 
+			" WHERE RN > startIndex")
+	@Results({ @Result(column = "ID", property = "id", jdbcType = JdbcType.DECIMAL, id = true),
+		@Result(column = "NAME", property = "name", jdbcType = JdbcType.VARCHAR),
+		@Result(column = "ORIGIN", property = "origin", jdbcType = JdbcType.VARCHAR),
+		@Result(column = "TYPE", property = "type", jdbcType = JdbcType.VARCHAR),
+		@Result(column = "ESTIMATEPRICE", property = "estimateprice", jdbcType = JdbcType.DECIMAL),
+		@Result(column = "CUSTOMERID", property = "customerid", jdbcType = JdbcType.DECIMAL),
+		@Result(column = "CREATORUSERID", property = "creatoruserid", jdbcType = JdbcType.VARCHAR),
+		@Result(column = "OWNERUSERID", property = "owneruserid", jdbcType = JdbcType.VARCHAR),
+		@Result(column = "GAINRATE", property = "gainrate", jdbcType = JdbcType.DECIMAL),
+		@Result(column = "TOTALAMOUNT", property = "totalamount", jdbcType = JdbcType.DECIMAL),
+		@Result(column = "SUBTOTALVAL", property = "subtotalval", jdbcType = JdbcType.DECIMAL),
+		@Result(column = "DISCOUNTPRICE", property = "discountprice", jdbcType = JdbcType.DECIMAL),
+		@Result(column = "SALESPRICE", property = "salesprice", jdbcType = JdbcType.DECIMAL),
+		@Result(column = "DUEDATE", property = "duedate", jdbcType = JdbcType.TIMESTAMP),
+		@Result(column = "GMT_CREATE", property = "gmtCreate", jdbcType = JdbcType.TIMESTAMP),
+		@Result(column = "GMT_MODIFIED", property = "gmtModified", jdbcType = JdbcType.TIMESTAMP),
+		@Result(column = "UPDATEUSERID", property = "updateuserid", jdbcType = JdbcType.VARCHAR),
+		@Result(column = "STATUSID", property = "statusid", jdbcType = JdbcType.VARCHAR),
+		@Result(column = "TOTALPRICE", property = "totalprice", jdbcType = JdbcType.DECIMAL),
+		@Result(column = "NEXTSTEP", property = "nextstep", jdbcType = JdbcType.VARCHAR),
+		@Result(column = "NEXTSTEPTIME", property = "nextsteptime", jdbcType = JdbcType.VARCHAR),
+		@Result(column = "ISDELETED", property = "isdeleted", jdbcType = JdbcType.DECIMAL),
+		@Result(column = "DELETEUSERID", property = "deleteuserid", jdbcType = JdbcType.VARCHAR),
+		@Result(column = "DELETETIME", property = "deletetime", jdbcType = JdbcType.TIMESTAMP),
+		@Result(column = "CONTACTSID", property = "contactsid", jdbcType = JdbcType.DECIMAL),
+		@Result(column = "CONTACTADDRESS", property = "contactaddress", jdbcType = JdbcType.VARCHAR),
+		@Result(column = "DESCRIPTION", property = "description", jdbcType = JdbcType.VARCHAR),
+		@Result(column = "IS_DEL", property = "isDel", jdbcType = JdbcType.VARCHAR) })
+	List<CrmBusiness> findPage(@Param("startIndex")Integer startIndex,@Param("endIndex")Integer endIndex);
+	
+	@Select("select count(u.id) from crm_business u")
+	Long findCount();
 }
